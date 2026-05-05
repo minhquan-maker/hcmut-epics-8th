@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaGuard — Business Model</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --deep:    #1E4E79;
+      --teal:    #1FB6A6;
+      --teal-lt: #6ED3C7;
+      --blue:    #4A90E2;
+      --blue-lt: #8FBCE6;
+      --blue-bg: #EDF3FA;
+      --orange:  #E25822;
+      --white:   #FFFFFF;
+      --gray-s:  #F4F7FA;
+      --gray-m:  #6B7C93;
+      --border:  rgba(30, 78, 121, 0.07);
+      --shadow:  0 1px 3px rgba(15, 42, 68, 0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray-s);
+      color: var(--deep);
+      min-height: 100vh;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* ── Header ─────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .page-header h1 {
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 800;
+      color: var(--deep);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .page-header p {
+      font-size: 15px;
+      color: var(--gray-m);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Card ──────────────────────────────── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    /* Card header bar */
+    .card-header {
+      background: var(--blue-bg);
+      border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .card-header .icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: var(--white);
+      border: 1px solid rgba(30, 78, 121, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-header .icon-wrap svg {
+      width: 18px;
+      height: 18px;
+    }
+    .card-header .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--deep);
+    }
+    .card-header .card-subtitle {
+      font-size: 12px;
+      color: var(--gray-m);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .card-body {
+      padding: 24px 28px;
+    }
+
+    /* ── Section label ────────────────────── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray-m);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Value prop highlight ──────────────── */
+    .vp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .vp-item {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .vp-item:hover {
+      border-color: rgba(74,144,226,0.35);
+      box-shadow: 0 2px 8px rgba(15, 42, 68, 0.08);
+    }
+    .vp-item .vp-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--white);
+      border: 1px solid rgba(30, 78, 121, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .vp-item .vp-icon svg { width: 18px; height: 18px; }
+    .vp-item .vp-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--deep);
+      line-height: 1.4;
+    }
+
+    /* ── 3-column grid ────────────────────── */
+    .col-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    /* ── Mini card ────────────────────────── */
+    .mini-card {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .mini-card .mc-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-m);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mini-card .mc-title svg { width: 14px; height: 14px; }
+    .mini-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .mini-card li {
+      font-size: 13px;
+      color: var(--deep);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    .mini-card li:last-child { border-bottom: none; }
+    .mini-card li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--teal);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .mini-card li.accent::before { background: var(--teal); }
+    .mini-card li.muted::before { background: var(--gray-m); }
+
+    /* ── Revenue cards ─────────────────────── */
+    .rev-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .rev-card {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .rev-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .rev-card.b2g::before { background: linear-gradient(90deg, var(--blue), var(--teal)); }
+    .rev-card.grants::before { background: linear-gradient(90deg, var(--teal), var(--teal-lt)); }
+    .rev-card.venture::before { background: linear-gradient(90deg, var(--blue-lt), var(--blue)); }
+
+    .rev-card .rev-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .rev-card.b2g .rev-label { color: var(--blue); }
+    .rev-card.grants .rev-label { color: var(--teal); }
+    .rev-card.venture .rev-label { color: var(--blue-lt); }
+
+    .rev-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--deep);
+      margin-bottom: 8px;
+    }
+    .rev-card p {
+      font-size: 13px;
+      color: var(--gray-m);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .rev-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .rev-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--gray-m);
+    }
+    .rev-card.b2g .rev-tag { border-color: rgba(74,144,226,0.2); color: var(--blue); }
+    .rev-card.grants .rev-tag { border-color: rgba(31,182,166,0.2); color: var(--teal); }
+    .rev-card.venture .rev-tag { border-color: rgba(74,144,226,0.15); color: var(--blue-lt); }
+
+    .rev-timeline {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-m);
+      margin-top: 12px;
+    }
+    .rev-timeline svg { width: 12px; height: 12px; }
+
+    /* ── Pricing cards ────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .pricing-card {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .pricing-card.featured {
+      border-color: var(--teal);
+      background: rgba(31, 182, 166, 0.04);
+    }
+    .pricing-card .tier {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-m);
+      margin-bottom: 4px;
+    }
+    .pricing-card.featured .tier { color: var(--teal); }
+    .pricing-card h4 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--deep);
+      margin-bottom: 2px;
+    }
+    .pricing-card .period {
+      font-size: 12px;
+      color: var(--gray-m);
+      margin-bottom: 12px;
+    }
+    .pricing-card p {
+      font-size: 13px;
+      color: var(--gray-m);
+      line-height: 1.55;
+    }
+
+    /* ── Cost table ───────────────────────── */
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .cost-item {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .cost-item .cost-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .cost-item .cost-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--deep);
+      margin-bottom: 2px;
+    }
+    .cost-item .cost-desc {
+      font-size: 12px;
+      color: var(--gray-m);
+      line-height: 1.45;
+    }
+
+    /* ── Partners row ────────────────────── */
+    .partner-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .partner-chip {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--deep);
+      transition: border-color 0.2s;
+    }
+    .partner-chip:hover { border-color: rgba(74,144,226,0.3); }
+
+    /* ── Service Lifecycle ──────────────────── */
+    .lifecycle-wrapper {
+      margin-bottom: 20px;
+    }
+    .lifecycle-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .lifecycle-arrow {
+      display: none;
+    }
+    .phase-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .phase-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .phase-card.pre::before  { background: linear-gradient(90deg, var(--teal), var(--teal-lt)); }
+    .phase-card.active::before { background: linear-gradient(90deg, var(--deep), var(--blue)); }
+    .phase-card.post::before  { background: linear-gradient(90deg, var(--blue), var(--blue-lt)); }
+
+    .phase-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .phase-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .phase-card.pre .phase-icon-wrap   { background: rgba(31, 182, 166, 0.1); }
+    .phase-card.active .phase-icon-wrap { background: rgba(30, 78, 121, 0.08); }
+    .phase-card.post .phase-icon-wrap  { background: rgba(74, 144, 226, 0.1); }
+    .phase-icon-wrap svg { width: 20px; height: 20px; }
+
+    .phase-meta { flex: 1; }
+    .phase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    .phase-card.pre .phase-badge   { background: rgba(31, 182, 166, 0.1); color: var(--teal); }
+    .phase-card.active .phase-badge { background: rgba(30, 78, 121, 0.08); color: var(--deep); }
+    .phase-card.post .phase-badge  { background: rgba(74, 144, 226, 0.1); color: var(--blue); }
+
+    .phase-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--deep);
+      margin-bottom: 3px;
+    }
+    .phase-desc {
+      font-size: 12px;
+      color: var(--gray-m);
+      line-height: 1.45;
+    }
+
+    .phase-body {
+      padding: 16px 20px;
+    }
+    .phase-services {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .phase-services li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--deep);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+    .phase-services li:last-child { border-bottom: none; }
+    .phase-services .svc-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .phase-card.pre .svc-dot   { background: var(--teal); }
+    .phase-card.active .svc-dot { background: var(--deep); }
+    .phase-card.post .svc-dot  { background: var(--blue); }
+
+    /* ── Footer ───────────────────────────── */
+    .page-footer {
+      text-align: center;
+      padding-top: 32px;
+      color: var(--gray-m);
+      font-size: 13px;
+    }
+    .page-footer span { color: var(--deep); font-weight: 700; }
+
+    /* ── Responsive ────────────────────────── */
+    @media (max-width: 900px) {
+      .vp-grid { grid-template-columns: repeat(2, 1fr); }
+      .col-3, .rev-grid, .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .cost-grid { grid-template-columns: 1fr; }
+      .lifecycle-track { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 28px 16px 56px; }
+      .page-header { margin-bottom: 28px; }
+      .page-header h1 { font-size: 22px; }
+      .page-header p { font-size: 13px; }
+      .vp-grid { grid-template-columns: repeat(2, 1fr); }
+      .col-3, .rev-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .cost-grid { grid-template-columns: 1fr; }
+      .lifecycle-track { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .phase-title { font-size: 16px; }
+      .phase-desc { font-size: 11px; }
+      .phase-services li { font-size: 12px; }
+      .phase-header { padding: 14px 16px 12px; }
+      .phase-body { padding: 14px 16px; }
+      .rev-card h4 { font-size: 15px; }
+      .rev-card p { font-size: 12px; }
+      .pricing-card h4 { font-size: 18px; }
+      .pricing-card p { font-size: 12px; }
+      .mini-card { padding: 14px; }
+      .mini-card li { font-size: 12px; }
+      .card-body { padding: 16px; }
+      .partner-chips { gap: 6px; }
+      .partner-chip { font-size: 12px; padding: 6px 12px; }
+      .card-header { padding: 12px 16px; }
+      .card-header .card-title { font-size: 14px; }
+      .card-header .card-subtitle { font-size: 11px; }
+    }
+
+    @media (max-width: 480px) {
+      .vp-grid { grid-template-columns: 1fr; }
+      .lifecycle-track { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 380px) {
+      .phase-header { flex-direction: column; gap: 8px; }
+      .phase-icon-wrap { width: 32px; height: 32px; }
+      .phase-icon-wrap svg { width: 16px; height: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Business Model</h1>
+    <p>A sustainable, multi-layer model connecting government contracts, impact funding, and social enterprise investment — built for scale in disaster resilience.</p>
+  </div>
+
+  <!-- ─── Value Proposition ──────────────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-title">Value Proposition</div>
+        <div class="card-subtitle">Core differentiators that make AquaGuard essential</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; color:var(--gray-m); margin-bottom:18px; line-height:1.6;">
+        AquaGuard delivers a comprehensive disaster management solution combining real-time data, community input, and location-based services — improving response speed, accuracy, and overall preparedness.
+      </p>
+      <div class="vp-grid">
+        <div class="vp-item">
+          <div class="vp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="vp-text">Location-based flood alerts</div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="vp-text">Real-time incident reporting</div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E25822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.25h3a2 2 0 0 1 2 1.72"/>
+            </svg>
+          </div>
+          <div class="vp-text">SOS emergency communication</div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+            </svg>
+          </div>
+          <div class="vp-text">Interactive flood maps</div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div class="vp-text">Safety guidance & evacuation info</div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E25822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="vp-text">Family safety network</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Service Lifecycle ──────────────── -->
+  <div class="section-label">Service Lifecycle</div>
+  <div class="lifecycle-wrapper">
+    <div class="lifecycle-track">
+
+      <!-- Pre-Flood -->
+      <div class="phase-card pre">
+        <div class="phase-header">
+          <div class="phase-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="phase-meta">
+            <div class="phase-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Phase 1
+            </div>
+            <div class="phase-title">Pre-Flood</div>
+            <div class="phase-desc">Early warning &amp; preparedness</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <ul class="phase-services">
+            <li><span class="svc-dot"></span>Location-based flood alert system with real-time push notifications</li>
+            <li><span class="svc-dot"></span>Risk assessment &amp; vulnerability mapping for target zones</li>
+            <li><span class="svc-dot"></span>Evacuation route planning with safe shelter coordination</li>
+            <li><span class="svc-dot"></span>Community preparedness education &amp; safety protocol delivery</li>
+            <li><span class="svc-dot"></span>Weather data integration from meteorological agencies</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- In-Flood -->
+      <div class="phase-card active">
+        <div class="phase-header">
+          <div class="phase-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.25h3a2 2 0 0 1 2 1.72"/>
+            </svg>
+          </div>
+          <div class="phase-meta">
+            <div class="phase-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Phase 2
+            </div>
+            <div class="phase-title">In-Flood</div>
+            <div class="phase-desc">Rescue coordination &amp; emergency response</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <ul class="phase-services">
+            <li><span class="svc-dot"></span>SOS emergency signal — victims request immediate rescue assistance</li>
+            <li><span class="svc-dot"></span>Real-time victim↔rescuer matching with live GPS tracking</li>
+            <li><span class="svc-dot"></span>Rescuer team dispatch with Leader/Co-leader coordination</li>
+            <li><span class="svc-dot"></span>On-ground incident reporting from citizens for situational awareness</li>
+            <li><span class="svc-dot"></span>Live flood map with dynamic danger zone visualization</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Post-Flood -->
+      <div class="phase-card post">
+        <div class="phase-header">
+          <div class="phase-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div class="phase-meta">
+            <div class="phase-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Phase 3
+            </div>
+            <div class="phase-title">Post-Flood</div>
+            <div class="phase-desc">Recovery, analysis &amp; resource distribution</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <ul class="phase-services">
+            <li><span class="svc-dot"></span>Damage assessment &amp; impact data analysis from collected reports</li>
+            <li><span class="svc-dot"></span>Resource allocation &amp; distribution optimization across affected zones</li>
+            <li><span class="svc-dot"></span>Recovery coordination between authorities, NGOs, and communities</li>
+            <li><span class="svc-dot"></span>Historical flood data archive for future preparedness modeling</li>
+            <li><span class="svc-dot"></span>Structured datasets for government planning &amp; policy reporting</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── Customer Segments ─────────────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-title">Customer Segments</div>
+        <div class="card-subtitle">Who we serve and how they benefit</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-3">
+        <div class="mini-card">
+          <div class="mc-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Primary
+          </div>
+          <ul>
+            <li class="accent">Residents in flood-damaged areas</li>
+            <li>Need real-time, accurate safety information</li>
+            <li>Make critical decisions during emergencies</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <div class="mc-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            Institutional
+          </div>
+          <ul>
+            <li class="accent">Government disaster management authorities</li>
+            <li>Monitor, coordinate, and make decisions</li>
+            <li>Require structured data and analytics</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <div class="mc-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8FBCE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Supporting
+          </div>
+          <ul>
+            <li class="accent">NGOs and community organizations</li>
+            <li>Deploy the system locally</li>
+            <li>Facilitate communication between communities and authorities</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Channels + Customer Relationships ─ -->
+  <div class="col-3" style="gap:20px; margin-bottom:20px;">
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.25h3a2 2 0 0 1 2 1.72"/>
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Channels</div>
+          <div class="card-subtitle">How we reach users</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:18px;">
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal); font-weight:700;">01</span> Mobile application (primary)
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal); font-weight:700;">02</span> Social media platforms
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal); font-weight:700;">03</span> Government disaster alert systems
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal); font-weight:700;">04</span> NGO community networks
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Customer Relationships</div>
+          <div class="card-subtitle">How we engage users</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:18px;">
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue); font-weight:700;">01</span> Self-service with high reliability
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue); font-weight:700;">02</span> Real-time two-way interaction
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue); font-weight:700;">03</span> Users as data contributors
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue); font-weight:700;">04</span> Sustained trust-based engagement
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Key Resources</div>
+          <div class="card-subtitle">What powers the platform</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:18px;">
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue-lt); font-weight:700;">01</span> Real-time meteorological data
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue-lt); font-weight:700;">02</span> Cloud-based infrastructure
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue-lt); font-weight:700;">03</span> User-generated reports
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--blue-lt); font-weight:700;">04</span> Geolocation & mapping system
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Revenue Streams ──────────────── -->
+  <div class="section-label">Revenue Streams</div>
+  <div class="rev-grid" style="margin-bottom:20px;">
+    <div class="rev-card grants">
+      <div class="rev-label">Layer 1 — Grants</div>
+      <h4>Grants & Strategic Funding</h4>
+      <p>Secure funding from educational institutions, NGOs, international organizations, and global disaster relief programs.</p>
+      <div class="rev-tags">
+        <span class="rev-tag">UNDP / World Bank DRF</span>
+        <span class="rev-tag">Research institutions</span>
+        <span class="rev-tag">Impact investment funds</span>
+        <span class="rev-tag">R&D support</span>
+      </div>
+      <div class="rev-timeline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Short-to-Medium Term
+      </div>
+    </div>
+    <div class="rev-card venture">
+      <div class="rev-label">Layer 2 — Venture</div>
+      <h4>Venture & Impact Investment</h4>
+      <p>Social enterprise investment focused on climate resilience and long-term sustainability of the platform.</p>
+      <div class="rev-tags">
+        <span class="rev-tag">Climate resilience funds</span>
+        <span class="rev-tag">Social enterprise</span>
+        <span class="rev-tag">Optional premium analytics</span>
+        <span class="rev-tag">Long-term growth</span>
+      </div>
+      <div class="rev-timeline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Medium Term
+      </div>
+    </div>
+    <div class="rev-card b2g">
+      <div class="rev-label">Layer 3 — B2G</div>
+      <h4>Business-to-Government</h4>
+      <p>Provide disaster management platform and technical infrastructure to government agencies and humanitarian organizations.</p>
+      <div class="rev-tags">
+        <span class="rev-tag">Flood response coordination</span>
+        <span class="rev-tag">Real-time rescue support</span>
+        <span class="rev-tag">Pre/post-disaster analytics</span>
+        <span class="rev-tag">Resource allocation</span>
+      </div>
+      <div class="rev-timeline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Long Term
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Key Activities + Partners ────── -->
+  <div class="col-3" style="gap:20px; margin-bottom:20px;">
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Key Activities</div>
+          <div class="card-subtitle">What we do</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:18px;">
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal);">◆</span> System design &amp; application development
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal);">◆</span> Real-time data integration
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal);">◆</span> Project coordination with stakeholders
+          </li>
+          <li style="font-size:13px; color:var(--deep); padding:8px 0; display:flex; gap:10px; align-items:center; font-weight:500;">
+            <span style="color:var(--teal);">◆</span> Community outreach &amp; training
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/>
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Key Partners</div>
+          <div class="card-subtitle">Strategic collaborations</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:18px;">
+        <div class="partner-chips">
+          <span class="partner-chip">Government authorities</span>
+          <span class="partner-chip">Meteorological agencies</span>
+          <span class="partner-chip">NGOs</span>
+          <span class="partner-chip">Technology providers</span>
+          <span class="partner-chip">Universities</span>
+          <span class="partner-chip">Disaster relief funds</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Cost Structure</div>
+          <div class="card-subtitle">Where investments go</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:18px;">
+        <div class="cost-grid">
+          <div class="cost-item">
+            <div class="cost-dot"></div>
+            <div>
+              <div class="cost-label">System Development</div>
+              <div class="cost-desc">Design and implementation of core platform</div>
+            </div>
+          </div>
+          <div class="cost-item">
+            <div class="cost-dot"></div>
+            <div>
+              <div class="cost-label">Cloud Infrastructure</div>
+              <div class="cost-desc">Real-time data processing and scalability</div>
+            </div>
+          </div>
+          <div class="cost-item">
+            <div class="cost-dot"></div>
+            <div>
+              <div class="cost-label">Maintenance &amp; Updates</div>
+              <div class="cost-desc">Continuous performance and reliability improvement</div>
+            </div>
+          </div>
+          <div class="cost-item">
+            <div class="cost-dot"></div>
+            <div>
+              <div class="cost-label">Community Outreach</div>
+              <div class="cost-desc">User adoption, education, and local engagement</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Pricing Model ──────────────── -->
+  <div class="section-label">Pricing Model</div>
+  <div class="pricing-grid" style="margin-bottom:20px;">
+    <div class="pricing-card">
+      <div class="tier">Pilot</div>
+      <h4>Free</h4>
+      <div class="period">0–12 months</div>
+      <p>Free for government partners in exchange for deployment data and case studies. Zero-cost entry to build trust and prove value in target regions.</p>
+    </div>
+    <div class="pricing-card featured">
+      <div class="tier">Standard</div>
+      <h4>Subscription</h4>
+      <div class="period">1–3 years</div>
+      <p>Per-province or per-region subscription model. Scalable pricing based on population coverage and feature tiers.</p>
+    </div>
+    <div class="pricing-card">
+      <div class="tier">Enterprise</div>
+      <h4>White-label</h4>
+      <div class="period">Multi-year</div>
+      <p>Full white-label deployment for national emergency management agencies. Custom branding, dedicated support, and SLA guarantees.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span>AquaGuard</span> · Business Model · EPICS 8th Iteration · 2026
+  </div>
+
+</div>
+</body>
+</html>

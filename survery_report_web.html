@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaGuard — User Survey Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0F2A44;
+      --deep:    #1E4E79;
+      --teal:    #1FB6A6;
+      --teal-lt: #6ED3C7;
+      --blue:    #4A90E2;
+      --blue-lt: #8FBCE6;
+      --blue-bg: #EDF3FA;
+      --white:   #FFFFFF;
+      --gray-s:  #F4F7FA;
+      --gray-m:  #6B7C93;
+      --border:  rgba(30, 78, 121, 0.1);
+      --border-light: rgba(30, 78, 121, 0.07);
+      --shadow:  0 1px 3px rgba(15, 42, 68, 0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--deep);
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    /* ══════════════════════════════════════
+       MAIN CARD — matches template
+    ══════════════════════════════════════ */
+    .main-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    /* Card header — light blue bar */
+    .card-header {
+      background: var(--blue-bg);
+      border-bottom: 1px solid rgba(74, 144, 226, 0.12);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .card-header .icon {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-header .icon img {
+      max-height: 48px;
+      max-width: 48px;
+      width: auto;
+      height: auto;
+    }
+    .card-header .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--deep);
+      line-height: 1;
+    }
+    .card-header .card-subtitle {
+      font-size: 12px;
+      color: var(--gray-m);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .card-header .badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--white);
+      border: 1px solid rgba(74, 144, 226, 0.25);
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    /* Card body */
+    .card-body {
+      padding: 28px;
+    }
+
+    /* Section heading */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray-m);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    /* ══════════════════════════════════════
+       STAT CARDS — white, minimal
+    ══════════════════════════════════════ */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 18px 14px;
+      text-align: center;
+      background: var(--gray-s);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover {
+      border-color: rgba(74, 144, 226, 0.3);
+      box-shadow: 0 2px 8px rgba(30, 78, 121, 0.06);
+    }
+    .stat-card .num {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    .stat-card .num.teal  { color: var(--teal); }
+    .stat-card .num.deep  { color: var(--deep); }
+    .stat-card .lbl {
+      font-size: 11px;
+      color: var(--gray-m);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    /* ══════════════════════════════════════
+       CHARTS GRID
+    ══════════════════════════════════════ */
+    .charts-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .charts-row.two { grid-template-columns: repeat(2, 1fr); }
+
+    .chart-card {
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 20px;
+      background: var(--white);
+    }
+    .chart-card h3 {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-m);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .chart-wrap { position: relative; height: 220px; width: 100%; }
+    .chart-wrap.tall { height: 300px; }
+
+    /* ══════════════════════════════════════
+       TABLES
+    ══════════════════════════════════════ */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left;
+      padding: 9px 12px;
+      background: var(--gray-s);
+      color: var(--gray-m);
+      font-weight: 700;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--deep);
+      font-size: 13px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(31, 182, 166, 0.04); }
+
+    tr.top-region td {
+      background: rgba(31, 182, 166, 0.05);
+      font-weight: 600;
+    }
+    tr.top-region td:first-child {
+      border-left: 3px solid var(--teal);
+      padding-left: 9px;
+    }
+
+    td.count {
+      font-weight: 700;
+      text-align: right;
+      width: 52px;
+      color: var(--blue);
+      font-size: 13px;
+    }
+    tr.top-region td.count { color: var(--teal); }
+    td.pct {
+      font-weight: 500;
+      color: var(--gray-m);
+      text-align: right;
+      width: 56px;
+      font-size: 12px;
+    }
+    td.bar-cell { min-width: 88px; }
+    .bar-bg {
+      height: 4px;
+      background: var(--gray-s);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .bar-fill { height: 100%; border-radius: 2px; }
+    .bar-fill.teal  { background: var(--teal); }
+    .bar-fill.blue  { background: var(--blue); }
+    .bar-fill.muted { background: rgba(107, 124, 147, 0.35); }
+
+    /* ══════════════════════════════════════
+       PAGE FOOTER
+    ══════════════════════════════════════ */
+    .page-footer {
+      text-align: center;
+      padding-top: 28px;
+      color: var(--gray-m);
+      font-size: 12px;
+    }
+    .page-footer span { color: var(--deep); font-weight: 700; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 1100px) {
+      .stat-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .container { padding: 24px 16px 60px; }
+      .card-body { padding: 20px 16px; }
+      .card-header { padding: 14px 16px; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .charts-row, .charts-row.two { grid-template-columns: 1fr; }
+      .chart-wrap { height: 200px; }
+      .chart-wrap.tall { height: 240px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  
+  <!-- Center header -->
+  <div style="text-align:center; margin-bottom: 32px;">
+    <h1 style="font-size: clamp(24px,3vw,40px); font-weight:800; color: var(--deep); margin-bottom: 8px; letter-spacing:-0.5px;">
+      User Survey Report
+    </h1>
+    <p style="font-size: 13px; color: var(--gray-m); font-weight: 400;">Post usability testing &nbsp;·&nbsp; 104 respondents &nbsp;·&nbsp; April 2026</p>
+  </div>
+
+  <!-- Main Card -->
+  <div class="main-card">
+
+    <!-- Card Header — blue bar -->
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="icon">
+          <img src="DesignKit/White_Background/WB_App_Logo.png" alt="AquaGuard">
+        </div>
+        <div>
+          <div class="card-title">AquaGuard Survey Report</div>
+          <div class="card-subtitle">Post usability testing · April 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+
+      <!-- Stats -->
+      <div class="section-label">Overview</div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="num deep">104</div>
+          <div class="lbl">Total Responses</div>
+        </div>
+        <div class="stat-card">
+          <div class="num deep">24</div>
+          <div class="lbl">Survey Questions</div>
+        </div>
+        <div class="stat-card">
+          <div class="num deep">22</div>
+          <div class="lbl">Provinces Covered</div>
+        </div>
+        <div class="stat-card">
+          <div class="num deep">4.30</div>
+          <div class="lbl">Avg. Satisfaction</div>
+        </div>
+        <div class="stat-card">
+          <div class="num deep">4.21</div>
+          <div class="lbl">Avg. Trust</div>
+        </div>
+        <div class="stat-card">
+          <div class="num teal">84%</div>
+          <div class="lbl">Would Continue Using</div>
+        </div>
+      </div>
+
+      <!-- Section 1: Demographic Distributions -->
+      <div class="section-label">Demographic Distributions</div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>Region Distribution — Top 10</h3>
+          <div class="chart-wrap tall"><canvas id="regionChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Gender Distribution</h3>
+          <div class="chart-wrap"><canvas id="genderChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Age Group Distribution</h3>
+          <div class="chart-wrap"><canvas id="ageChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Section 2: Satisfaction & Trust -->
+      <div class="section-label" style="margin-top: 14px;">User Satisfaction &amp; Trust</div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>Satisfaction Distribution</h3>
+          <div class="chart-wrap"><canvas id="satChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Trust in Emergencies</h3>
+          <div class="chart-wrap"><canvas id="trustChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Willingness to Continue</h3>
+          <div class="chart-wrap"><canvas id="willChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Section 3: Summary Tables -->
+      <div class="section-label" style="margin-top: 14px;">Summary Tables</div>
+      <div class="charts-row two">
+
+        <!-- Region table -->
+        <div class="chart-card">
+          <h3>Region Count (All 22 Provinces)</h3>
+          <table>
+            <thead><tr><th>Province / City</th><th class="count">Count</th><th class="pct">%</th><th class="bar-cell"></th></tr></thead>
+            <tbody>
+              <tr class="top-region"><td>Thái Nguyên</td><td class="count">12</td><td class="pct">11.5%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill teal" style="width:100%"></div></div></td></tr>
+              <tr class="top-region"><td>Cao Bằng</td><td class="count">11</td><td class="pct">10.6%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill teal" style="width:91.7%"></div></div></td></tr>
+              <tr class="top-region"><td>Lạng Sơn</td><td class="count">10</td><td class="pct">9.6%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill teal" style="width:83.3%"></div></div></td></tr>
+              <tr class="top-region"><td>Bắc Ninh</td><td class="count">10</td><td class="pct">9.6%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill teal" style="width:83.3%"></div></div></td></tr>
+              <tr><td>Hà Giang</td><td class="count">7</td><td class="pct">6.7%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:58.3%"></div></div></td></tr>
+              <tr><td>Tuyên Quang</td><td class="count">6</td><td class="pct">5.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:50%"></div></div></td></tr>
+              <tr><td>Bắc Kạn</td><td class="count">6</td><td class="pct">5.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:50%"></div></div></td></tr>
+              <tr><td>Yên Bái</td><td class="count">5</td><td class="pct">4.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:41.7%"></div></div></td></tr>
+              <tr><td>Phú Thọ</td><td class="count">5</td><td class="pct">4.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:41.7%"></div></div></td></tr>
+              <tr><td>Vĩnh Phúc</td><td class="count">5</td><td class="pct">4.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:41.7%"></div></div></td></tr>
+              <tr><td>Thái Bình</td><td class="count">4</td><td class="pct">3.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:33.3%"></div></div></td></tr>
+              <tr><td>Hưng Yên</td><td class="count">4</td><td class="pct">3.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:33.3%"></div></div></td></tr>
+              <tr><td>Hải Dương</td><td class="count">4</td><td class="pct">3.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:33.3%"></div></div></td></tr>
+              <tr><td>Bắc Giang</td><td class="count">4</td><td class="pct">3.8%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill blue" style="width:33.3%"></div></div></td></tr>
+              <tr><td>Hà Nội</td><td class="count">3</td><td class="pct">2.9%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:25%"></div></div></td></tr>
+              <tr><td>Nam Định</td><td class="count">3</td><td class="pct">2.9%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:25%"></div></div></td></tr>
+              <tr><td>Ninh Bình</td><td class="count">2</td><td class="pct">1.9%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:16.7%"></div></div></td></tr>
+              <tr><td>Hà Nam</td><td class="count">1</td><td class="pct">1.0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:8.3%"></div></div></td></tr>
+              <tr><td>Điện Biên</td><td class="count">1</td><td class="pct">1.0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:8.3%"></div></div></td></tr>
+              <tr><td>Lai Châu</td><td class="count">1</td><td class="pct">1.0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:8.3%"></div></div></td></tr>
+              <tr><td>Hòa Bình</td><td class="count">1</td><td class="pct">1.0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:8.3%"></div></div></td></tr>
+              <tr><td>Sơn La</td><td class="count">1</td><td class="pct">1.0%</td><td class="bar-cell"><div class="bar-bg"><div class="bar-fill muted" style="width:8.3%"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Gender + Age tables -->
+        <div class="chart-card">
+          <h3>Gender</h3>
+          <table style="margin-bottom: 24px">
+            <thead><tr><th>Gender</th><th class="count">Count</th><th class="pct">%</th></tr></thead>
+            <tbody>
+              <tr><td>Male</td><td class="count">65</td><td class="pct">62.5%</td></tr>
+              <tr><td>Female</td><td class="count">26</td><td class="pct">25.0%</td></tr>
+              <tr><td>Prefer not to say</td><td class="count">11</td><td class="pct">10.6%</td></tr>
+              <tr><td>Missing</td><td class="count">2</td><td class="pct">1.9%</td></tr>
+            </tbody>
+          </table>
+          <h3>Age Group</h3>
+          <table>
+            <thead><tr><th>Age Group</th><th class="count">Count</th><th class="pct">%</th></tr></thead>
+            <tbody>
+              <tr><td>18–24</td><td class="count">77</td><td class="pct">74.0%</td></tr>
+              <tr><td>25–34</td><td class="count">10</td><td class="pct">9.6%</td></tr>
+              <tr><td>35–44</td><td class="count">8</td><td class="pct">7.7%</td></tr>
+              <tr><td>Under 18</td><td class="count">3</td><td class="pct">2.9%</td></tr>
+              <tr><td>45–54</td><td class="count">3</td><td class="pct">2.9%</td></tr>
+              <tr><td>65+</td><td class="count">2</td><td class="pct">1.9%</td></tr>
+              <tr><td>55–64</td><td class="count">1</td><td class="pct">1.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /card-body -->
+  </div><!-- /main-card -->
+
+  <!-- Page Footer -->
+  <div class="page-footer">
+    <span>AquaGuard</span> · User Survey Report · EPICS 8th Iteration · n = 104 · April 2026
+  </div>
+
+</div>
+
+<script>
+  Chart.defaults.color = '#6B7C93';
+  Chart.defaults.font.family = 'Inter, sans-serif';
+
+  const tooltipBase = {
+    backgroundColor: '#1E4E79',
+    titleColor: '#FFFFFF',
+    bodyColor: 'rgba(255,255,255,0.7)',
+    borderColor: 'rgba(31,182,166,0.2)',
+    borderWidth: 1,
+    padding: 10,
+    cornerRadius: 6,
+  };
+
+  function base() {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: tooltipBase,
+      }
+    };
+  }
+
+  const TEAL  = '#1FB6A6';
+  const TEALL = '#6ED3C7';
+  const BLUE  = '#4A90E2';
+  const BLUEL = '#8FBCE6';
+  const GRAY  = '#6B7C93';
+  const DEEP  = '#1E4E79';
+
+  /* Region Horizontal Bar */
+  new Chart(document.getElementById('regionChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Thái Nguyên','Cao Bằng','Lạng Sơn','Bắc Ninh','Hà Giang','Tuyên Quang','Bắc Kạn','Yên Bái','Phú Thọ','Vĩnh Phúc'],
+      datasets: [{
+        data: [12, 11, 10, 10, 7, 6, 6, 5, 5, 5],
+        backgroundColor: [TEAL,TEAL,TEAL,TEAL, BLUE,BLUE,BLUE,BLUEL,BLUEL,BLUEL],
+        borderRadius: 3,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      ...base(),
+      indexAxis: 'y',
+      plugins: {
+        ...base().plugins,
+        tooltip: { ...tooltipBase, callbacks: { label: ctx => ` ${ctx.raw} respondents` } }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          grid: { color: 'rgba(30,78,121,0.04)' },
+          ticks: { stepSize: 2, color: GRAY }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: DEEP, font: { weight: '600', size: 11 } }
+        }
+      }
+    }
+  });
+
+  /* Gender Doughnut */
+  new Chart(document.getElementById('genderChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Male', 'Female', 'Prefer not to say'],
+      datasets: [{
+        data: [65, 26, 11],
+        backgroundColor: [BLUE, TEAL, GRAY],
+        borderWidth: 0,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      ...base(),
+      cutout: '62%',
+      plugins: {
+        ...base().plugins,
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 14,
+            font: { size: 12 },
+            usePointStyle: true,
+            pointStyleWidth: 8,
+            color: DEEP,
+          }
+        },
+        tooltip: { ...tooltipBase, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${(ctx.raw/102*100).toFixed(1)}%)` } }
+      }
+    }
+  });
+
+  /* Age Bar */
+  new Chart(document.getElementById('ageChart'), {
+    type: 'bar',
+    data: {
+      labels: ['18–24', '25–34', '35–44', 'Under 18', '45–54', '65+', '55–64'],
+      datasets: [{
+        data: [77, 10, 8, 3, 3, 2, 1],
+        backgroundColor: [BLUE, BLUE, TEAL, GRAY, TEALL, TEALL, BLUEL],
+        borderRadius: 3,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      ...base(),
+      plugins: {
+        ...base().plugins,
+        tooltip: { ...tooltipBase, callbacks: { label: ctx => ` ${ctx.raw} respondents` } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(30,78,121,0.04)' },
+          ticks: { stepSize: 10, color: GRAY }
+        },
+        x: { grid: { display: false }, ticks: { color: GRAY } }
+      }
+    }
+  });
+
+  /* Satisfaction Bar */
+  new Chart(document.getElementById('satChart'), {
+    type: 'bar',
+    data: {
+      labels: ['1','2','3','4','5'],
+      datasets: [{
+        data: [1, 1, 11, 33, 43],
+        backgroundColor: [GRAY, GRAY, BLUEL, TEAL, TEALL],
+        borderRadius: 3,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      ...base(),
+      plugins: {
+        ...base().plugins,
+        tooltip: { ...tooltipBase, callbacks: { label: ctx => ` ${ctx.raw} respondents` } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(30,78,121,0.04)' },
+          ticks: { stepSize: 10, color: GRAY }
+        },
+        x: { grid: { display: false }, ticks: { color: GRAY } }
+      }
+    }
+  });
+
+  /* Trust Bar */
+  new Chart(document.getElementById('trustChart'), {
+    type: 'bar',
+    data: {
+      labels: ['1','2','3','4','5'],
+      datasets: [{
+        data: [1, 2, 15, 30, 41],
+        backgroundColor: [GRAY, GRAY, BLUEL, TEAL, TEALL],
+        borderRadius: 3,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      ...base(),
+      plugins: {
+        ...base().plugins,
+        tooltip: { ...tooltipBase, callbacks: { label: ctx => ` ${ctx.raw} respondents` } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(30,78,121,0.04)' },
+          ticks: { stepSize: 10, color: GRAY }
+        },
+        x: { grid: { display: false }, ticks: { color: GRAY } }
+      }
+    }
+  });
+
+  /* Willingness Doughnut */
+  new Chart(document.getElementById('willChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Yes — Will continue', 'Not sure', 'No — Will not continue'],
+      datasets: [{
+        data: [75, 13, 1],
+        backgroundColor: [TEAL, BLUEL, GRAY],
+        borderWidth: 0,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      ...base(),
+      cutout: '62%',
+      plugins: {
+        ...base().plugins,
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 14,
+            font: { size: 12 },
+            usePointStyle: true,
+            pointStyleWidth: 8,
+            color: DEEP,
+          }
+        },
+        tooltip: { ...tooltipBase, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${(ctx.raw/89*100).toFixed(1)}%)` } }
+      }
+    }
+  });
+</script>
+</body>
+</html>

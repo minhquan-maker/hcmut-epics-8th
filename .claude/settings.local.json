@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /tmp/aquaguard_pptx_work/original)",
+      "Read(//tmp/**)",
+      "Bash(rm -rf original/*)",
+      "Bash(unzip -q \"/Users/nguyenminhquan/Desktop/Projects/AquaGuard 2025/Epics 8th/current_slide.pptx\" -d original)"
+    ]
+  }
+}
