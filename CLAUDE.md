@@ -6,56 +6,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **AquaGuard** is a multi-platform flood emergency management system connecting three user roles: Citizens (affected users), Rescuers (field teams), and Admins (system managers).
 
-The `Epics 8th/` directory is the **EPICS 8th iteration workspace** — it contains documentation files (reports, slides, surveys, business model HTML pages). The actual source code lives in sibling directories. The parent `AquaGuard/` directory also holds `Green Hackathon/` and other project materials.
+`Epics 8th/` is the EPICS iteration workspace — it contains documentation, reports, HTML pages, and survey data. Source code lives in sibling directories under `../Others/`.
 
-## Directory Layout
+## Source Code Locations
 
+- **Web app:** `../Others/AquaGuard-iOS-main/` (note: directory name is misleading, it contains the React web app)
+- **iOS app:** `../Others/AquaGuard-iOS-main/AquaGuard-iOS-main/` or `../AquaGuard-iOS-main/`
+- **Full web app docs:** `../Others/AquaGuard_Documentation.md`
+
+## Development Commands
+
+### Web App (`../Others/AquaGuard-iOS-main/`)
+```bash
+npm install
+npm run dev          # Start dev server (Vite)
+npm run build        # Production build
+npm run lint         # ESLint check
 ```
-AquaGuard/                          # Parent project directory
-├── AquaGuard-iOS-main/            # Native iOS app (SwiftUI, MVVM)
-│   ├── AquaGuard/                 # App entry point (AquaGuardApp.swift)
-│   ├── Models/Models.swift        # Data models, enums, mock data
-│   ├── ViewModels/               # HomeVM, MapVM, ReportVM
-│   └── Views/                    # SwiftUI views (Home, Map, Report, Rescue, Safety)
-├── Others/                        # Web app source code, docs
-│   ├── AquaGuard_Documentation.md # Full web app technical docs
-│   ├── AquaGuard-iOS-main/       # iOS app (alternate location)
-│   ├── PROJECT_DESCRIPTION.txt    # Web app feature overview
-│   └── aquaguard-roles-usecase.html  # Interactive RBAC + use-case diagram
-├── Green Hackathon/               # Hackathon materials
-└── Epics 8th/                    # EPICS iteration workspace (this directory)
-    ├── CLAUDE.md                 # This file
-    ├── memory.md                 # Project decisions, file tracking, V2 completion status
-    ├── features.md               # Complete feature specification (Citizen/Rescuer/Admin)
-    ├── benefit.md                # Benefits methodology (97% faster pre-alert, 45% faster rescue, 85% faster analytics)
-    ├── overallreport.md          # Final consolidated report
-    ├── spec.md                   # Presentation specification (22 slides + 5-min script)
-    ├── business-model.html       # Business model (dark navy theme)
-    ├── business_report_web.html  # Business model (white design + Service Lifecycle)
-    ├── survery_report_web.html   # Interactive survey report (Chart.js, bilingual EN/VI, 91 respondents, 24 questions)
-    │                                 ⚠️ Filename has a typo: "survery" not "survey" — used as-is in links
-    ├── surveydata.xlsx           # Source survey data (24 questions, EN/VI bilingual)
-    ├── chart.pptx                # Editable PPTX of survey infrastructure chart
-    └── template.png              # Presentation template image
+
+### iOS App (`../Others/AquaGuard-iOS-main/AquaGuard-iOS-main/`)
+```bash
+open AquaGuard.xcodeproj    # Open in Xcode
+# Build via Xcode: Product → Build (⌘B)
+# Run on simulator: ⌘R
+# Run unit tests: ⌘U
 ```
 
 ## Architecture
 
-### Web App
-- **Stack:** React 19 + Vite 6 + Leaflet 1.9.4 + TailwindCSS 4.0.0
-- **V2 Backend:** Node.js + Express + PostgreSQL + WebSocket (Socket.io)
-- **V1 Backend (prototype):** Firebase (Auth + Firestore)
-- **Auth:** JWT (phone + password) + Google OAuth
-- **Storage:** Cloudinary (SOS photos)
-- **Deploy:** Docker Compose
-- Source code lives in `../Others/` — see `AquaGuard_Documentation.md` for full architecture.
+### Web App — Key Patterns
 
-### iOS App
-- **Stack:** Swift 5.9, SwiftUI, MapKit, CoreLocation
-- **Architecture:** MVVM
-- **Target:** iOS 26.0+
-- **Navigation:** 5-tab TabView (Home, Map, Report, Rescue, Safety)
-- Open via `open AquaGuard.xcodeproj` in Xcode
+**Client-side page switching:** The main `Dashboard.jsx` uses React state (`activePage`) to switch between views, NOT React Router nested routes. This means `/` always renders Dashboard, which internally handles routing via `handleNavigate(page)` → `setActivePage(page)`.
+
+**RBAC enforcement:** `canAccessPage(role, page)` in `src/config/rbac.js` gates navigation. Backend uses middleware `authMiddleware`, `requireAdmin`, `requireRoles([...])`.
+
+**Firebase lazy init:** `src/config/firebase.js` only creates Firebase instances when getter functions are called (not at module load time). This avoids initialization errors during SSR/build.
+
+**V2 migration:** V1 uses Firebase-only (Auth + Firestore). V2 replaces backend with Node.js + Express + PostgreSQL + WebSocket. The React frontend stays the same, connected to V2 via REST API + Socket.io.
+
+### iOS App — Key Patterns
+
+**MVVM architecture:** `AquaGuard/` (app entry), `Models/Models.swift` (data + mock), `ViewModels/` (HomeVM, MapVM, ReportVM), `Views/` (SwiftUI views organized by tab: Home, Map, Report, Rescue, Safety).
+
+**5-tab navigation:** `ContentView.swift` uses `TabView` with exactly 5 tabs matching the web app's mobile nav.
+
+### SOS State Machine
+
+```
+pending → assigned → in_progress → resolved
+                           ↘ cancelled
+```
+
+Admin assigns groups (`PUT /api/sos/:id/assign`). Leader/Co-leader self-assign from queue. WebSocket shares rescuer GPS with citizen during `in_progress`.
 
 ## Design System (V2 Documentation Pages)
 
@@ -89,36 +91,14 @@ Frontend guard: `canAccessPage(role, page)` in `src/config/rbac.js`. Backend mid
 
 ## Key Documentation References
 
-- `memory.md` — Project decisions, file tracking, V2 delivery status (start here)
-- `overallreport.md` — Final consolidated report (problem, solution, architecture, business model, roadmap)
-- `benefit.md` — Quantified benefits with methodology, calculations, and 8 citations (UNDRR, FEMA, World Bank, GSO, MONRE, MARD)
-- `spec.md` — Presentation specification (22 slides, 6 sections, 5-minute script framework, visual assets checklist)
-- `features.md` — Complete feature specification for all 3 roles, including the E2E rescue flow and SOS state machine
+- `memory.md` — Project decisions and file tracking
+- `overallreport.md` — Consolidated report (problem, architecture, business model, roadmap)
+- `benefit.md` — Quantified benefits with methodology and citations
+- `spec.md` — Presentation specification (22 slides, script framework)
+- `features.md` — Complete feature specification for all 3 roles and the E2E rescue flow
 - `survery_report_web.html` — Interactive survey report (note: "survery" typo in filename)
-- `AquaGuard_Documentation.md` (in `../Others/`) — Full web app architecture, API endpoints, DB schema
-- `AquaGuard-iOS-main/README.md` (in `../Others/`) — iOS app overview
-
-## SOS End-to-End Flow
-
-```
-Citizen sends SOS (GPS + description + photos + urgency)
-    │
-    ├── Admin assigns to rescue group (PUT /api/sos/:id/assign)
-    │   OR Rescuer self-assigns from queue (Leader/Co-leader only)
-    │
-    ▼
-Rescuer accepts → status: pending → in_progress
-    │
-    ├── WebSocket: rescuer GPS shared with citizen (real-time tracking)
-    │
-    ▼
-Rescuer completes → status: resolved
-    │
-    ▼
-Data flows into analytics dashboard
-```
-
-**SOS States:** `pending` → `assigned` → `in_progress` → `resolved` / `cancelled`
+- `../Others/AquaGuard_Documentation.md` — Full web app architecture and API endpoints
+- `../Others/AquaGuard-iOS-main/README.md` — iOS app overview
 
 ## V1 vs V2
 

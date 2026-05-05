@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaGuard — Platform Features</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --deep:    #1E4E79;
+      --teal:    #1FB6A6;
+      --teal-lt: #6ED3C7;
+      --blue:    #4A90E2;
+      --blue-lt: #8FBCE6;
+      --blue-bg: #EDF3FA;
+      --orange:  #E25822;
+      --white:   #FFFFFF;
+      --gray-s:  #F4F7FA;
+      --gray-m:  #6B7C93;
+      --border:  rgba(30, 78, 121, 0.07);
+      --shadow:  0 1px 3px rgba(15, 42, 68, 0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray-s);
+      color: var(--deep);
+      min-height: 100vh;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* ── Header ─────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .page-header h1 {
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 800;
+      color: var(--deep);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .page-header p {
+      font-size: 15px;
+      color: var(--gray-m);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Card ──────────────────────────────── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .card-header {
+      background: var(--blue-bg);
+      border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: var(--white);
+      border: 1px solid rgba(30, 78, 121, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap svg { width: 18px; height: 18px; }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--deep); }
+    .card-subtitle { font-size: 12px; color: var(--gray-m); font-weight: 400; margin-top: 2px; }
+    .card-body { padding: 24px 28px; }
+
+    /* ── Section label ────────────────────── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray-m);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Role Cards ────────────────────────── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .role-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .role-card:hover {
+      box-shadow: 0 4px 16px rgba(15, 42, 68, 0.10);
+    }
+    .role-card-header {
+      padding: 20px 22px 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .role-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .role-icon-wrap svg { width: 26px; height: 26px; }
+    .role-card.citizen .role-icon-wrap { background: rgba(31, 182, 166, 0.12); }
+    .role-card.rescuer .role-icon-wrap { background: rgba(74, 144, 226, 0.12); }
+    .role-card.admin .role-icon-wrap   { background: rgba(30, 78, 121, 0.10); }
+    .role-card-header .role-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .role-card.citizen .role-badge { background: rgba(31, 182, 166, 0.12); color: var(--teal); }
+    .role-card.rescuer .role-badge { background: rgba(74, 144, 226, 0.12); color: var(--blue); }
+    .role-card.admin .role-badge   { background: rgba(30, 78, 121, 0.08); color: var(--deep); }
+    .role-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--deep);
+      margin-bottom: 4px;
+    }
+    .role-desc {
+      font-size: 12px;
+      color: var(--gray-m);
+      line-height: 1.5;
+    }
+    .role-card-body {
+      padding: 16px 20px;
+    }
+    .role-perms {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .role-perms li {
+      font-size: 13px;
+      color: var(--deep);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+    .role-perms li:last-child { border-bottom: none; }
+    .role-perms li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .role-card.citizen .role-perms li::before { background: var(--teal); }
+    .role-card.rescuer .role-perms li::before { background: var(--blue); }
+    .role-card.admin .role-perms li::before   { background: var(--deep); }
+
+    /* ── Stat pills ─────────────────────────── */
+    .stat-pills {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--deep);
+      box-shadow: var(--shadow);
+    }
+    .stat-pill svg { width: 14px; height: 14px; }
+
+    /* ── Tabs ──────────────────────────────── */
+    .tab-container {
+      margin-bottom: 20px;
+    }
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0;
+    }
+    .tab-nav label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-m);
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      transition: color 0.2s, background 0.2s;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-nav label svg { width: 14px; height: 14px; }
+    .tab-nav label:hover { color: var(--deep); background: var(--gray-s); }
+
+    #tab-shared:checked ~ nav label[for="tab-shared"],
+    #tab-citizen:checked ~ nav label[for="tab-citizen"],
+    #tab-rescuer:checked ~ nav label[for="tab-rescuer"],
+    #tab-admin:checked ~ nav label[for="tab-admin"] {
+      color: var(--deep);
+      border-bottom-color: var(--teal);
+    }
+    #tab-shared:checked ~ nav label[for="tab-shared"]    { border-bottom-color: var(--teal); }
+    #tab-citizen:checked ~ nav label[for="tab-citizen"]  { border-bottom-color: var(--teal); }
+    #tab-rescuer:checked ~ nav label[for="tab-rescuer"]  { border-bottom-color: var(--blue); }
+    #tab-admin:checked ~ nav label[for="tab-admin"]       { border-bottom-color: var(--deep); }
+
+    .tab-panel { display: none; }
+    #tab-shared:checked ~ .tab-content-shared,
+    #tab-citizen:checked ~ .tab-content-citizen,
+    #tab-rescuer:checked ~ .tab-content-rescuer,
+    #tab-admin:checked ~ .tab-content-admin { display: block; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .feature-card {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      border-color: rgba(74, 144, 226, 0.3);
+      box-shadow: 0 2px 8px rgba(15, 42, 68, 0.08);
+    }
+    .feature-card .fc-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .fc-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--white);
+      border: 1px solid rgba(30, 78, 121, 0.08);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .fc-icon svg { width: 15px; height: 15px; }
+    .fc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--deep);
+    }
+    .fc-desc {
+      font-size: 12px;
+      color: var(--gray-m);
+      line-height: 1.5;
+    }
+
+    /* ── Sub-role Cards ────────────────────── */
+    .subrole-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .subrole-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .subrole-card-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .subrole-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .subrole-icon svg { width: 17px; height: 17px; }
+    .subrole-card.leader .subrole-icon  { background: rgba(30, 78, 121, 0.10); }
+    .subrole-card.coleader .subrole-icon { background: rgba(74, 144, 226, 0.12); }
+    .subrole-card.member .subrole-icon   { background: rgba(31, 182, 166, 0.10); }
+    .subrole-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-bottom: 3px;
+    }
+    .subrole-card.leader .subrole-badge  { background: rgba(30, 78, 121, 0.08); color: var(--deep); }
+    .subrole-card.coleader .subrole-badge { background: rgba(74, 144, 226, 0.12); color: var(--blue); }
+    .subrole-card.member .subrole-badge   { background: rgba(31, 182, 166, 0.10); color: var(--teal); }
+    .subrole-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--deep);
+    }
+    .subrole-body { padding: 14px 18px; }
+    .subrole-perms {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .subrole-perms li {
+      font-size: 12px;
+      color: var(--deep);
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    .subrole-perms li:last-child { border-bottom: none; }
+    .subrole-perms .check { color: var(--teal); }
+    .subrole-perms .cross { color: var(--gray-m); }
+    .subrole-perms li svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ── Permission Matrix ─────────────────── */
+    .perm-matrix {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .perm-matrix table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .perm-matrix th {
+      background: var(--blue-bg);
+      padding: 10px 16px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--deep);
+      border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+    }
+    .perm-matrix th:first-child { color: var(--gray-m); }
+    .perm-matrix td {
+      padding: 9px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--deep);
+    }
+    .perm-matrix tr:last-child td { border-bottom: none; }
+    .perm-matrix tr:hover td { background: rgba(31, 182, 166, 0.03); }
+    .perm-matrix .center { text-align: center; }
+    .perm-matrix .yes { color: var(--teal); }
+    .perm-matrix .no  { color: var(--gray-m); opacity: 0.5; }
+    .perm-matrix .yes svg, .perm-matrix .no svg { width: 16px; height: 16px; }
+
+    /* ── E2E Flow ──────────────────────────── */
+    .flow-track {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .flow-step {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .flow-step::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .flow-step.flood::before    { background: var(--teal); }
+    .flow-step.sos::before      { background: var(--orange); }
+    .flow-step.assign::before   { background: var(--blue); }
+    .flow-step.tracking::before { background: var(--deep); }
+    .flow-step.resolve::before  { background: var(--teal); }
+    .flow-step-header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .flow-step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .flow-step.flood .flow-step-num    { background: rgba(31, 182, 166, 0.12); color: var(--teal); }
+    .flow-step.sos .flow-step-num      { background: rgba(226, 88, 34, 0.12); color: var(--orange); }
+    .flow-step.assign .flow-step-num   { background: rgba(74, 144, 226, 0.12); color: var(--blue); }
+    .flow-step.tracking .flow-step-num { background: rgba(30, 78, 121, 0.10); color: var(--deep); }
+    .flow-step.resolve .flow-step-num  { background: rgba(31, 182, 166, 0.12); color: var(--teal); }
+    .flow-step-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--deep);
+      line-height: 1.3;
+    }
+    .flow-step-body { padding: 12px 16px; }
+    .flow-step-body p {
+      font-size: 12px;
+      color: var(--gray-m);
+      line-height: 1.5;
+    }
+    .flow-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: -6px 0;
+      z-index: 1;
+      position: relative;
+    }
+    .flow-connector svg { width: 16px; height: 16px; color: var(--gray-m); }
+
+    /* ── SOS Status Pills ──────────────────── */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid;
+    }
+    .status-pill svg { width: 11px; height: 11px; }
+    .status-pill.pending    { background: rgba(226, 88, 34, 0.08); color: var(--orange); border-color: rgba(226, 88, 34, 0.2); }
+    .status-pill.assigned   { background: rgba(74, 144, 226, 0.08); color: var(--blue); border-color: rgba(74, 144, 226, 0.2); }
+    .status-pill.inprogress { background: rgba(30, 78, 121, 0.08); color: var(--deep); border-color: rgba(30, 78, 121, 0.15); }
+    .status-pill.resolved   { background: rgba(31, 182, 166, 0.08); color: var(--teal); border-color: rgba(31, 182, 166, 0.2); }
+    .status-pill.cancelled  { background: rgba(107, 124, 147, 0.08); color: var(--gray-m); border-color: rgba(107, 124, 147, 0.2); }
+
+    /* ── API Grid ──────────────────────────── */
+    .api-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .api-card {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .api-method {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .api-method.post { background: rgba(31, 182, 166, 0.12); color: var(--teal); }
+    .api-method.get  { background: rgba(74, 144, 226, 0.12); color: var(--blue); }
+    .api-method.put  { background: rgba(226, 88, 34, 0.10); color: var(--orange); }
+    .api-info { flex: 1; }
+    .api-endpoint {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--deep);
+      font-family: 'Courier New', monospace;
+      margin-bottom: 3px;
+    }
+    .api-desc {
+      font-size: 12px;
+      color: var(--gray-m);
+      line-height: 1.45;
+    }
+    .api-role {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gray-m);
+      margin-top: 4px;
+    }
+
+    /* ── Tech Stack ────────────────────────── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .tech-card {
+      background: var(--gray-s);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .tech-card .tech-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-m);
+      margin-bottom: 10px;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tech-tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 5px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--deep);
+    }
+    .tech-card.frontend .tech-tag { border-color: rgba(31, 182, 166, 0.25); color: var(--teal); }
+    .tech-card.backend .tech-tag  { border-color: rgba(74, 144, 226, 0.25); color: var(--blue); }
+    .tech-card.infra .tech-tag    { border-color: rgba(30, 78, 121, 0.15); color: var(--deep); }
+
+    /* ── Footer ───────────────────────────── */
+    .page-footer {
+      text-align: center;
+      padding-top: 32px;
+      color: var(--gray-m);
+      font-size: 13px;
+    }
+    .page-footer span { color: var(--deep); font-weight: 700; }
+
+    /* ── Responsive ────────────────────────── */
+    @media (max-width: 900px) {
+      .role-grid { grid-template-columns: repeat(3, 1fr); }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow-track { grid-template-columns: repeat(3, 1fr); }
+      .subrole-grid { grid-template-columns: repeat(3, 1fr); }
+      .tech-grid { grid-template-columns: repeat(3, 1fr); }
+      .api-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 28px 16px 56px; }
+      .page-header { margin-bottom: 28px; }
+      .page-header h1 { font-size: 22px; }
+      .page-header p { font-size: 13px; }
+      .role-grid { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .flow-track { grid-template-columns: repeat(2, 1fr); }
+      .subrole-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .tab-nav { gap: 2px; }
+      .tab-nav label { padding: 8px 12px; font-size: 12px; }
+      .card-body { padding: 16px; }
+      .perm-matrix { overflow-x: auto; }
+      .perm-matrix table { min-width: 480px; }
+    }
+    @media (max-width: 480px) {
+      .flow-track { grid-template-columns: 1fr; }
+      .stat-pills { gap: 8px; }
+      .stat-pill { font-size: 12px; padding: 5px 12px; }
+      .api-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ─── Header ──────────────────────────── -->
+  <div class="page-header">
+    <h1>Platform Features</h1>
+    <p>A comprehensive flood emergency management system connecting citizens, rescue teams, and administrators in real time — built for speed, safety, and scale.</p>
+  </div>
+
+  <!-- ─── Stat Pills ─────────────────────── -->
+  <div class="stat-pills">
+    <div class="stat-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      3 Roles
+    </div>
+    <div class="stat-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      50+ Features
+    </div>
+    <div class="stat-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.25h3a2 2 0 0 1 2 1.72"/></svg>
+      Real-time SOS
+    </div>
+    <div class="stat-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+      Live Flood Map
+    </div>
+  </div>
+
+  <!-- ─── Role Overview ──────────────────── -->
+  <div class="section-label">Role-Based Access Control</div>
+  <div class="role-grid">
+
+    <!-- Citizen -->
+    <div class="role-card citizen">
+      <div class="role-card-header">
+        <div class="role-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="role-badge">Citizen</div>
+        <div class="role-name">Citizen</div>
+        <div class="role-desc">Affected residents who need help during floods</div>
+      </div>
+      <div class="role-card-body">
+        <ul class="role-perms">
+          <li>Send SOS emergency requests with GPS + photos</li>
+          <li>Track rescuer location in real time</li>
+          <li>Family safety network &amp; status updates</li>
+          <li>Live flood map with danger zones</li>
+          <li>Safety protocols &amp; emergency contacts</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Rescuer -->
+    <div class="role-card rescuer">
+      <div class="role-card-header">
+        <div class="role-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="role-badge">Rescuer</div>
+        <div class="role-name">Rescue Team</div>
+        <div class="role-desc">Field teams organized in groups with a leader hierarchy</div>
+      </div>
+      <div class="role-card-body">
+        <ul class="role-perms">
+          <li>View &amp; accept SOS requests from queue</li>
+          <li>Accept missions (Leader/Co-leader only)</li>
+          <li>Live GPS sharing with citizens</li>
+          <li>Manage team members &amp; sub-roles</li>
+          <li>Complete or cancel team missions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Admin -->
+    <div class="role-card admin">
+      <div class="role-card-header">
+        <div class="role-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/>
+          </svg>
+        </div>
+        <div class="role-badge">Admin</div>
+        <div class="role-name">Administrator</div>
+        <div class="role-desc">System managers with full oversight and control</div>
+      </div>
+      <div class="role-card-body">
+        <ul class="role-perms">
+          <li>Assign SOS requests to rescue groups</li>
+          <li>Manage all users and change roles</li>
+          <li>View &amp; edit flood map zones</li>
+          <li>System analytics dashboard</li>
+          <li>Oversee all rescue teams</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Feature Tabs ──────────────────── -->
+  <div class="section-label">Feature Breakdown</div>
+  <div class="tab-container">
+    <input type="radio" name="tab" id="tab-shared" checked>
+    <input type="radio" name="tab" id="tab-citizen">
+    <input type="radio" name="tab" id="tab-rescuer">
+    <input type="radio" name="tab" id="tab-admin">
+
+    <nav class="tab-nav">
+      <label for="tab-shared">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Shared
+      </label>
+
+      <label for="tab-citizen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Citizen
+      </label>
+
+      <label for="tab-rescuer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Rescuer
+      </label>
+
+      <label for="tab-admin">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+        Admin
+      </label>
+    </nav>
+
+    <!-- Shared Tab -->
+    <div class="tab-panel tab-content-shared">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="fc-title">Authentication</div>
+          </div>
+          <div class="fc-desc">Phone + password (JWT) or Google OAuth via Firebase. Admin/rescuer registration requires a role verification code.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="fc-title">Profile Settings</div>
+          </div>
+          <div class="fc-desc">Edit name, phone, address, gender, DOB. Upload avatar and change password.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <div class="fc-title">Appearance</div>
+          </div>
+          <div class="fc-desc">Light / Dark / System modes. Language switch between English and Vietnamese. Settings persist across sessions.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E25822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="fc-title">News &amp; Alerts</div>
+          </div>
+          <div class="fc-desc">Flood news feed with severity classification — danger (red), warning (orange), info (blue). Push-style notifications.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#6B7C93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="fc-title">About Us</div>
+          </div>
+          <div class="fc-desc">System overview, team information, project goals, and mission statement.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="fc-title">AI ChatBot</div>
+          </div>
+          <div class="fc-desc">Fixed bottom-right chat widget. Toggleable open/close. Provides instant support and guidance for all users.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Citizen Tab -->
+    <div class="tab-panel tab-content-citizen">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <div class="fc-title">Dashboard</div>
+          </div>
+          <div class="fc-desc">Welcome header with city, safety status toggle (Safe / Danger / Injured), active SOS banner, quick actions, family safety board, and SOS history.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E25822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.25h3a2 2 0 0 1 2 1.72"/></svg>
+            </div>
+            <div class="fc-title">SOS Request</div>
+          </div>
+          <div class="fc-desc">Send emergency requests with auto-detected GPS, description, urgency level (Low / Medium / High / Critical), and up to 5 photos uploaded to Cloudinary.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </div>
+            <div class="fc-title">Live Flood Map</div>
+          </div>
+          <div class="fc-desc">Leaflet-based real-time map showing flood zones, water levels, danger points, SOS markers, and family member locations. Right panel with family check list.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="fc-title">Family Safety</div>
+          </div>
+          <div class="fc-desc">Search and connect family members by phone. Accept/reject invites. Update safety status (Safe / Danger / Injured / Unknown) with health notes. View all on map.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="fc-title">Safety Protocols</div>
+          </div>
+          <div class="fc-desc">Step-by-step guides for before, during, and after a flood. Emergency contact directory — rescue hotlines, hospitals, and police numbers.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="fc-title">Live Tracking</div>
+          </div>
+          <div class="fc-desc">Once a rescuer accepts an SOS, citizens see the rescuer's real-time GPS location on the map via WebSocket — from dispatch to arrival.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rescuer Tab -->
+    <div class="tab-panel tab-content-rescuer">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="fc-title">Rescue Queue</div>
+          </div>
+          <div class="fc-desc">View all SOS requests sorted by newest first. See full details — name, phone, address, description, urgency, photos, GPS. Requests within 30 min marked as new.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E25822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div class="fc-title">Accept / Complete Mission</div>
+          </div>
+          <div class="fc-desc">Leader and Co-leader can accept SOS from queue. Complete or cancel missions. Members (non-leaders) can view but not operate on missions.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </div>
+            <div class="fc-title">Live Flood Map</div>
+          </div>
+          <div class="fc-desc">Same real-time map as citizens but optimized for rescue — SOS markers, danger zones, team positions. Right panel shows team info and rescue status.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="fc-title">Team Management</div>
+          </div>
+          <div class="fc-desc">Create/join teams. Invite members by phone. Promote Members to Co-leader (Leader only). Kick members, leave team, or disband (Leader only).</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="fc-title">Live GPS Sharing</div>
+          </div>
+          <div class="fc-desc">Share real-time GPS location with the citizen during an active mission. All team members see shared positions. Stops automatically on mission complete/cancel.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#6B7C93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div class="fc-title">No Family Features</div>
+          </div>
+          <div class="fc-desc">Rescuers do not have access to family safety features. Focus is entirely on mission coordination and team operations.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tab -->
+    <div class="tab-panel tab-content-admin">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <div class="fc-title">Dashboard</div>
+          </div>
+          <div class="fc-desc">Overview stats — Total Users, Rescuers, Pending SOS, Active SOS. Quick SOS summary table with counts by status. Multi-tab navigation.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="fc-title">User Management</div>
+          </div>
+          <div class="fc-desc">Full user list with name, phone, role, created date. Filter by role (Citizens / Rescuers / Admins). Change any user's role via dropdown.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E25822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.25h3a2 2 0 0 1 2 1.72"/></svg>
+            </div>
+            <div class="fc-title">SOS Management</div>
+          </div>
+          <div class="fc-desc">View all SOS requests with status/urgency filters. Assign any SOS to a rescue group. Track mission progress in real time.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="fc-title">Rescue Teams</div>
+          </div>
+          <div class="fc-desc">View all rescue groups — members, leader, status. Per-team detail with member list and mission statistics.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </div>
+            <div class="fc-title">Flood Map Editor</div>
+          </div>
+          <div class="fc-desc">Full map editing capabilities — add, edit, and delete flood zones. Manage danger points and water level markers directly on the Leaflet map.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-header">
+            <div class="fc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <div class="fc-title">System Analytics</div>
+          </div>
+          <div class="fc-desc">User growth over time, SOS trends (daily/weekly/monthly), rescue performance metrics (avg response time, fastest, slowest), and role distribution charts.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Rescuer Sub-roles ─────────────── -->
+  <div class="section-label">Rescuer Team Sub-roles</div>
+
+  <div class="subrole-grid">
+    <div class="subrole-card leader">
+      <div class="subrole-card-header">
+        <div class="subrole-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="subrole-badge">Full Access</div>
+          <div class="subrole-name">Leader</div>
+        </div>
+      </div>
+      <div class="subrole-body">
+        <ul class="subrole-perms">
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Accept SOS missions</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Complete / Cancel missions</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Invite members</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Promote to Co-leader</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Kick / Disband team</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Edit team name &amp; description</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subrole-card coleader">
+      <div class="subrole-card-header">
+        <div class="subrole-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4A90E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="subrole-badge">Partial</div>
+          <div class="subrole-name">Co-leader</div>
+        </div>
+      </div>
+      <div class="subrole-body">
+        <ul class="subrole-perms">
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Accept SOS missions</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Complete / Cancel missions</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Invite members</li>
+          <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Promote to Co-leader</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Kick members</li>
+          <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Disband team</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subrole-card member">
+      <div class="subrole-card-header">
+        <div class="subrole-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1FB6A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="subrole-badge">View Only</div>
+          <div class="subrole-name">Member</div>
+        </div>
+      </div>
+      <div class="subrole-body">
+        <ul class="subrole-perms">
+          <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Accept SOS missions</li>
+          <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Complete / Cancel missions</li>
+          <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Invite / Kick members</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> View team missions</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> View team info</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span> Leave team</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SOS Status Timeline ───────────── -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1E4E79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-title">SOS Status Lifecycle</div>
+        <div class="card-subtitle">Every SOS passes through these states</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="status-row">
+        <div class="status-pill pending">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          pending
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-m)" stroke-width="1.5" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="status-pill assigned">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          assigned
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-m)" stroke-width="1.5" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="status-pill inprogress">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          in_progress
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-m)" stroke-width="1.5" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="status-pill resolved">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          resolved
+        </div>
+        <span style="font-size:12px;color:var(--gray-m);margin-left:4px;">or</span>
+        <div class="status-pill cancelled">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          cancelled
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── E2E Rescue Flow ────────────────── -->
+  <div class="section-label">End-to-End Rescue Flow</div>
+  <div class="flow-track">
+    <div class="flow-step flood">
+      <div class="flow-step-header">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-title">Flood Occurs</div>
+      </div>
+      <div class="flow-step-body">
+        <p>Disaster event detected. Citizens in affected areas begin experiencing danger and need immediate assistance.</p>
+      </div>
+    </div>
+    <div class="flow-step sos">
+      <div class="flow-step-header">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-title">Citizen Sends SOS</div>
+      </div>
+      <div class="flow-step-body">
+        <p>Citizen submits SOS with GPS location, description, urgency level, and up to 5 photos. Status becomes <strong>pending</strong>.</p>
+      </div>
+    </div>
+    <div class="flow-step assign">
+      <div class="flow-step-header">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-title">Admin Assigns Group</div>
+      </div>
+      <div class="flow-step-body">
+        <p>Admin reviews SOS and assigns it to a rescue team. The team's Leader becomes the assigned responder. Status becomes <strong>assigned</strong>.</p>
+      </div>
+    </div>
+    <div class="flow-step tracking">
+      <div class="flow-step-header">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-title">Rescuer Tracks &amp; Responds</div>
+      </div>
+      <div class="flow-step-body">
+        <p>Leader/Co-leader accepts the mission. WebSocket begins sharing rescuer GPS with the citizen in real time. Status becomes <strong>in_progress</strong>.</p>
+      </div>
+    </div>
+    <div class="flow-step resolve">
+      <div class="flow-step-header">
+        <div class="flow-step-num">5</div>
+        <div class="flow-step-title">Mission Resolved</div>
+      </div>
+      <div class="flow-step-body">
+        <p>Rescuer marks the mission complete. Data flows into the analytics dashboard. Status becomes <strong>resolved</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── API Overview ───────────────────── -->
+  <div class="section-label">API Endpoints</div>
+  <div class="api-grid" style="margin-bottom:20px;">
+
+    <div class="api-card">
+      <div class="api-method post">POST</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos</div>
+        <div class="api-desc">Citizen creates a new SOS request with location, description, urgency, and photo URLs.</div>
+        <div class="api-role">Citizen</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method get">GET</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/my</div>
+        <div class="api-desc">Citizen retrieves all their own SOS requests with current status and assigned rescuer info.</div>
+        <div class="api-role">Citizen</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method get">GET</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/all</div>
+        <div class="api-desc">Retrieve all SOS requests across the system. Filterable by status and urgency level.</div>
+        <div class="api-role">Admin / Rescuer</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method get">GET</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/team</div>
+        <div class="api-desc">Rescuer retrieves all SOS requests assigned to their specific rescue team.</div>
+        <div class="api-role">Rescuer</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method put">PUT</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/:id/assign</div>
+        <div class="api-desc">Admin assigns a specific SOS to a rescue group. The group's Leader becomes the assigned responder.</div>
+        <div class="api-role">Admin</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method put">PUT</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/:id/accept</div>
+        <div class="api-desc">Rescuer (Leader/Co-leader) accepts an SOS from the queue. Starts GPS sharing via WebSocket.</div>
+        <div class="api-role">Rescuer</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method put">PUT</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/:id/complete</div>
+        <div class="api-desc">Rescuer marks the mission as successfully completed. Stops GPS sharing. Status: resolved.</div>
+        <div class="api-role">Rescuer</div>
+      </div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-method put">PUT</div>
+      <div class="api-info">
+        <div class="api-endpoint">/api/sos/:id/cancel</div>
+        <div class="api-desc">Rescuer cancels the mission and returns it to the queue. Stops GPS sharing. Status: cancelled.</div>
+        <div class="api-role">Rescuer</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── Tech Stack ─────────────────────── -->
+  <div class="section-label">Tech Stack</div>
+  <div class="tech-grid">
+    <div class="tech-card frontend">
+      <div class="tech-label">Frontend</div>
+      <div class="tech-tags">
+        <span class="tech-tag">React 19</span>
+        <span class="tech-tag">Vite 6</span>
+        <span class="tech-tag">Leaflet 1.9</span>
+        <span class="tech-tag">TailwindCSS 4</span>
+        <span class="tech-tag">WebSocket</span>
+        <span class="tech-tag">React Router</span>
+      </div>
+    </div>
+    <div class="tech-card backend">
+      <div class="tech-label">Backend</div>
+      <div class="tech-tags">
+        <span class="tech-tag">Node.js</span>
+        <span class="tech-tag">Express</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">Socket.io</span>
+        <span class="tech-tag">JWT Auth</span>
+        <span class="tech-tag">Cloudinary</span>
+      </div>
+    </div>
+    <div class="tech-card infra">
+      <div class="tech-label">Infrastructure</div>
+      <div class="tech-tags">
+        <span class="tech-tag">Docker Compose</span>
+        <span class="tech-tag">Vercel</span>
+        <span class="tech-tag">Firebase</span>
+        <span class="tech-tag">SwiftUI</span>
+        <span class="tech-tag">MapKit</span>
+        <span class="tech-tag">CoreLocation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─────────────────────────── -->
+  <div class="page-footer">
+    <span>AquaGuard</span> · Platform Features · EPICS 8th Iteration · 2026
+  </div>
+
+</div>
+</body>
+</html>
